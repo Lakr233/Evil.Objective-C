@@ -100,6 +100,13 @@ static void replaced_UIControl_sendAction_to_forEvent(id self, SEL sel, SEL acti
 }
 
 __attribute__((constructor)) void eval_init(void) {
+
+#ifdef DEBUG
+#else
+return;
+#endif
+
+
     [Eval overwriteWithClass:NSArray.class
                 withSelector:NSSelectorFromString(@"containsObject:")
                  usingNewImp:(IMP)&replaced_NSArray_containsObject
