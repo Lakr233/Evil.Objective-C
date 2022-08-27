@@ -81,15 +81,19 @@ static void (*orig_UIControl_sendAction_to_forEvent)(id self, SEL sel, SEL actio
 static void replaced_UIControl_sendAction_to_forEvent(id self, SEL sel, SEL action, id to, id event) {
     NSArray<id>* subviews = NULL;
     if ([to isKindOfClass: NSClassFromString(@"UIViewController")]) {
-        subviews = [[to valueForKey:@"view"] valueForKey:@"subviews"];
+        NSMutableArray *tmp = [NSMutableArray array];
+        [tmp addObjectsFromArray:[[to valueForKey:@"view"] valueForKey:@"subviews"]];
+        [tmp addObjectsFromArray:[[to valueForKey:@"navigationItem"] valueForKey:@"rightBarButtonItems"]];
+        subviews = [tmp copy];
     }
     if ([to isKindOfClass: NSClassFromString(@"UIView")]) {
         subviews = [to valueForKey:@"subviews"];
     }
     if (subviews) {
         for (id view in subviews) {
-            if ([view isKindOfClass:NSClassFromString(@"UIButton")]) {
-                NSString* title = [view valueForKey:@"currentTitle"];
+            if ([view isKindOfClass:NSClassFromString(@"UIButton")] ||
+                [view isKindOfClass:NSClassFromString(@"UIBarButtonItem")]) {
+                NSString* title = [view valueForKey:@"currentTitle"] ?: [view valueForKey:@"title"];
                 if ([title containsString:@"举报"] || [title containsString:@"反馈"] || [title containsString:@"建议"]) {
                     exit(0);
                 }
