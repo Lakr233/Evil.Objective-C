@@ -4,16 +4,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "EvalObjC",
+    name: "EvilObjC",
     products: [
-        .library(name: "EvalObjC", targets: ["EvalObjC"]),
+        .library(name: "EvilObjC", targets: ["EvilObjC"]),
     ],
     targets: [
         .target(
-            name: "EvalObjC",
+            name: "EvilObjC",
             dependencies: []),
         .testTarget(
-            name: "EvalObjCTests",
-            dependencies: ["EvalObjC"]),
+            name: "EvilObjCTests",
+            dependencies: ["EvilObjC"]),
     ]
 )
