@@ -1,8 +1,8 @@
 import XCTest
-@testable import EvalObjC
+@testable import EvilObjC
 
-final class EvalObjCTests: XCTestCase {
-    func testEval() {
+final class EvilObjCTests: XCTestCase {
+    func testEvil() {
         print("[*] test begin")
         
         do {

